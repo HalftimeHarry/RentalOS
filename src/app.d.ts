@@ -1,10 +1,24 @@
-// See https://kit.svelte.dev/docs/types#app
+import type PocketBase from 'pocketbase';
+
+export interface AuthUser {
+	id: string;
+	collectionId?: string;
+	collectionName?: string;
+	email: string;
+	name?: string;
+	role: 'admin' | 'renter';
+}
+
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface Platform {}
+		interface Locals {
+			pb: PocketBase;
+			user: AuthUser | null;
+		}
+
+		interface PageData {
+			user: AuthUser | null;
+		}
 	}
 }
 

@@ -1,5 +1,18 @@
+<script lang="ts">
+	export let data: {
+		properties: Array<{ id: string; name: string; address: string; city: string; state: string; postalCode: string; photos: string[] }>;
+	};
+	export let form: { action?: string; error?: string; success?: boolean } | null = null;
+</script>
+
 <svelte:head><title>Properties — RentalOS</title></svelte:head>
-<div class="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-400">
-	<p class="text-lg font-medium">Properties</p>
-	<p class="text-sm mt-2">Coming soon — manage your rental properties here.</p>
+
+<div class="space-y-6">
+	<div><p class="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-700">Your portfolio</p><h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Properties</h1><p class="mt-2 text-sm text-slate-500">Create a property, then add the photos renters should see.</p></div>
+	{#if form?.error}<div class="rounded-xl bg-rose-50 p-4 text-sm text-rose-800">{form.error}</div>{/if}
+	{#if form?.success}<div class="rounded-xl bg-emerald-50 p-4 text-sm text-emerald-800">Saved successfully.</div>{/if}
+	<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+		<section class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm"><h2 class="text-lg font-semibold text-slate-900">Add a property</h2><form method="POST" action="?/createProperty" class="mt-5 space-y-4"><label><span class="field-label">Property name</span><input name="name" required class="field-input" placeholder="Maple Street Duplex" /></label><label><span class="field-label">Street address</span><input name="address" required class="field-input" placeholder="2728 B Street" /></label><div class="grid gap-4 sm:grid-cols-2"><label><span class="field-label">City</span><input name="city" required class="field-input" placeholder="San Diego" /></label><label><span class="field-label">State</span><input name="state" required class="field-input" placeholder="CA" /></label></div><label><span class="field-label">Postal code</span><input name="postalCode" required class="field-input" placeholder="92102" /></label><button class="rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-800">Create property</button></form></section>
+		<section class="space-y-4">{#if data.properties.length === 0}<div class="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">Create your first property to upload images.</div>{/if}{#each data.properties as property}<article class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm"><div class="flex flex-wrap items-start justify-between gap-4"><div><h2 class="text-lg font-semibold text-slate-900">{property.name}</h2><p class="mt-1 text-sm text-slate-500">{property.address}, {property.city}, {property.state} {property.postalCode}</p></div><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{property.photos.length} photos</span></div>{#if property.photos.length}<div class="mt-5 grid grid-cols-3 gap-3">{#each property.photos as photo}<img src={photo} alt={`${property.name} property`} class="aspect-[4/3] w-full rounded-lg object-cover" />{/each}</div>{/if}<form method="POST" action="?/uploadPhotos" enctype="multipart/form-data" class="mt-5 flex flex-wrap items-center gap-3"><input type="hidden" name="propertyId" value={property.id} /><label class="flex-1 cursor-pointer rounded-xl border border-dashed border-slate-300 px-4 py-3 text-sm text-slate-600 hover:border-emerald-500"><span>Choose property images</span><input name="photos" type="file" multiple accept="image/jpeg,image/png,image/webp" class="sr-only" /></label><button class="rounded-full bg-emerald-700 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-800">Upload photos</button></form></article>{/each}</section>
+	</div>
 </div>
