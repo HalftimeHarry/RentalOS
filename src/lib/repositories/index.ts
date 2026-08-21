@@ -1,0 +1,9 @@
+export type { PropertyRepository } from './property-repository.js';
+export type { UnitRepository } from './unit-repository.js';
+export type { TenantRepository } from './tenant-repository.js';
+export type { LeaseRepository } from './lease-repository.js';
+export type { RentPaymentRepository } from './rent-payment-repository.js';
+export type { ExpenseRepository } from './expense-repository.js';
+export type { MaintenanceRepository } from './maintenance-repository.js';
+export type { VendorRepository } from './vendor-repository.js';
+export type { ActivityEventRepository } from './activity-event-repository.js';
